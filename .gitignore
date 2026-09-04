@@ -1,0 +1,17 @@
+# Python ortamı ve geçici dosyalar
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+
+# Veri dosyaları
+data/
+*.csv
+*.csv.gz
+*.parquet
+*.zip
+*.gz
+*.duckdb
+
+# Şifreler ve yerel ayarlar
+.env
+.env.*
