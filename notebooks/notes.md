@@ -42,3 +42,20 @@ combined into `icu_base_df`, with one row per ICU stay.
 - Preserved all 61,532 ICU stays, producing 13 columns.
 - Confirmed that every ICU stay matched a patient and hospital admission.
 - Kept the original DataFrames unchanged.
+
+## Age Preparation
+
+- Converted birth, hospital admission/discharge, and ICU entry/exit
+  columns to datetime.
+- Calculated approximate age at ICU entry using INTIME (ICU entry)
+  and DOB (date of birth).
+- Preserved the original calculation in AGE_RAW.
+- MIMIC-III masks ages over 89 by shifting birth dates, which can
+  produce calculated ages above 300.
+- Created AGE by capping calculated ages at 90.
+  The value 90 represents the 90+ group, not an exact age.
+- Created AGE_90_PLUS: 1 for calculated ages of 90 or above,
+  and 0 otherwise.
+- Identified 2,721 ICU stays in the 90+ group.
+- No records were removed; all 61,532 ICU stays were retained.
+- AGE_RAW will not be used as a model input.

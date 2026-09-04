@@ -15,3 +15,5 @@ data/
 # Credentials and local settings
 .env
 .env.*
+# Personal study notes
+personal_notes_tr.md
