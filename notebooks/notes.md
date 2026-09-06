@@ -59,3 +59,15 @@ combined into `icu_base_df`, with one row per ICU stay.
 - Identified 2,721 ICU stays in the 90+ group.
 - No records were removed; all 61,532 ICU stays were retained.
 - AGE_RAW will not be used as a model input.
+
+
+### Age Preparation and Cohort Separation
+
+- Calculated age at ICU admission using the date of birth and ICU admission time.
+- Preserved the calculated age in `AGE_RAW`, capped `AGE` at 90, and added `AGE_90_PLUS`. A value of 90 represents the 90+ age group, not an exact age.
+- Created separate pediatric (`AGE < 18`) and adult (`AGE >= 18`) DataFrames.
+- Before removing missing values:
+  - **Pediatric cohort:** 8,200 ICU stays from 7,967 unique patients.
+  - **Adult cohort:** 53,332 ICU stays from 38,512 unique patients.
+- Removed rows with missing ICU discharge time (`OUTTIME`) or length of stay (`LOS`) from both cohort DataFrames.
+- Kept the original merged table, `icu_base_df`, unchanged.
