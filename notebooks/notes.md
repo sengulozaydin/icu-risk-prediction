@@ -91,3 +91,29 @@ Both percentages used the same denominator: **38,510 unique adult ICU patients**
 These windows are cumulative: deaths within 24 hours are also included in the 48-hour total. For patients with multiple ICU stays, a qualifying death could be identified relative to any recorded ICU admission, not only their first.
 
 These results describe recorded in-hospital deaths following ICU admission; they do not require death to have occurred inside the ICU. This is a descriptive analysis, separate from the prediction task.
+
+
+## Filtering ICU Stays by Minimum 24-Hour Length of Stay
+
+Since the goal of the project is to predict mortality using the first 24 hours of ICU data, patients with ICU stays shorter than 24 hours were examined separately.
+
+Among adult ICU records:
+
+- 8,076 ICU stays were shorter than 24 hours.
+- 6,902 of these patients survived.
+- 1,174 died in the hospital.
+
+For ICU stays of at least 24 hours:
+
+- 45,253 records remained.
+- 39,893 patients survived.
+- 5,360 died in the hospital.
+
+To ensure that every patient has a complete 24-hour observation window, ICU stays shorter than 24 hours were excluded from the main analysis.
+
+The filtered adult ICU dataset contains:
+
+- 45,253 rows
+- 16 columns
+
+This filtered dataset will be used for the next stages of laboratory and clinical feature selection.
