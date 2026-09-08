@@ -71,3 +71,23 @@ combined into `icu_base_df`, with one row per ICU stay.
   - **Adult cohort:** 53,332 ICU stays from 38,512 unique patients.
 - Removed rows with missing ICU discharge time (`OUTTIME`) or length of stay (`LOS`) from both cohort DataFrames.
 - Kept the original merged table, `icu_base_df`, unchanged.
+
+
+### Early Mortality After ICU Admission
+
+To examine early mortality, we added the death timestamp (`DEATHTIME`) from the admissions table to the adult ICU dataset, matching records by `SUBJECT_ID` and `HADM_ID`.
+
+We calculated the time between ICU admission (`INTIME`) and death in hours, then counted unique patients with a recorded in-hospital death within 24 and 48 hours of ICU admission.
+
+The analysis used the adult cohort before applying minimum 24-hour or 48-hour ICU stay filters, so early deaths were retained. Each patient was counted only once within each time window.
+
+| Time Window | Patients Who Died | Percentage of Adult Patients |
+|---|---:|---:|
+| Within 24 hours | 1,077 | 2.80% |
+| Within 48 hours | 1,806 | 4.69% |
+
+Both percentages used the same denominator: **38,510 unique adult ICU patients**. Bar charts displayed the patient counts and percentages.
+
+These windows are cumulative: deaths within 24 hours are also included in the 48-hour total. For patients with multiple ICU stays, a qualifying death could be identified relative to any recorded ICU admission, not only their first.
+
+These results describe recorded in-hospital deaths following ICU admission; they do not require death to have occurred inside the ICU. This is a descriptive analysis, separate from the prediction task.
