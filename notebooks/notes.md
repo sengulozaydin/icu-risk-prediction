@@ -117,3 +117,223 @@ The filtered adult ICU dataset contains:
 - 16 columns
 
 This filtered dataset will be used for the next stages of laboratory and clinical feature selection.
+
+
+
+## Laboratory Feature Selection and First 24-Hour Extraction
+
+### 1. Defining the Main Prediction Scope
+
+The current project scope was narrowed to **hospital mortality prediction**.
+
+Although the dataset can also support future projects such as:
+
+- Sepsis prediction
+- Acute kidney injury / renal failure prediction
+- Cardiac event prediction
+
+these outcomes will be handled as separate future projects to keep the current analysis focused and manageable.
+
+---
+
+### 2. Restricting LABEVENTS to the Target ICU Cohort
+
+The laboratory dataset was restricted to hospital admissions belonging to the previously defined adult ICU cohort with stays of at least 24 hours.
+
+After filtering, the laboratory dataset contained:
+
+- **20,166,734 laboratory records**
+
+This ensured that laboratory feature selection was based only on the population that will actually be used in the mortality model.
+
+---
+
+### 3. Measuring Laboratory Test Frequency
+
+For each laboratory test, the number of unique hospital admissions in which the test was performed was calculated.
+
+The tests were then ranked from the most common to the least common.
+
+A frequency threshold of **50% of the target ICU admissions** was used as an initial screening criterion.
+
+Since the target cohort contains 45,253 ICU stays, the approximate 50% threshold was:
+
+- **22,627 admissions**
+
+Using this threshold reduced the laboratory test pool from approximately **726 ITEMIDs to 60 commonly performed tests**.
+
+---
+
+### 4. Reviewing the 60 Most Common Laboratory Tests
+
+The 60 common laboratory ITEMIDs were matched with the laboratory dictionary to obtain:
+
+- Test name
+- Specimen type
+- Laboratory category
+
+This allowed clinically irrelevant, duplicated or overly specific variables to be removed.
+
+Several urine-based tests and redundant hematological indices were excluded.
+
+Examples of excluded variables included:
+
+- Urine Color
+- Urine Appearance
+- Yeast
+- Epithelial Cells
+- MCV
+- MCH
+- MCHC
+- RDW
+
+When multiple variables provided very similar information, the more clinically useful or general variable was preferred.
+
+Examples:
+
+- Hemoglobin was preferred over Hematocrit and RBC count.
+- INR was retained while PT and PTT were removed.
+- Chemistry Glucose was retained instead of urine or blood-gas glucose.
+- Standard Potassium was retained instead of whole-blood potassium.
+- Blood pH was retained instead of urine pH.
+- Total Calcium was retained instead of Free Calcium.
+- Bicarbonate and Anion Gap were retained while Base Excess was excluded.
+
+AST and ALT were both retained because they may provide complementary information about liver injury and overall disease severity.
+
+---
+
+### 5. Final Laboratory Candidate Set
+
+A final set of **23 laboratory features** was selected for mortality prediction:
+
+- Creatinine
+- Urea Nitrogen
+- Hemoglobin
+- Platelet Count
+- White Blood Cells
+- Sodium
+- Potassium
+- Chloride
+- Bicarbonate
+- Anion Gap
+- Glucose
+- Magnesium
+- Calcium, Total
+- Phosphate
+- INR(PT)
+- Blood pH
+- pO2
+- pCO2
+- Lactate
+- Albumin
+- Bilirubin, Total
+- AST
+- ALT
+
+These variables were selected based on a combination of:
+
+- Frequency
+- Clinical relevance
+- Redundancy reduction
+- Suitability for early mortality prediction
+
+---
+
+### 6. Extracting Real Measurements for the Selected Tests
+
+The selected 23 laboratory test codes were used to filter the laboratory event table.
+
+This produced:
+
+- **9,978,641 laboratory records**
+
+At this stage, the dataset contained only real measurements belonging to the selected laboratory tests.
+
+---
+
+### 7. Handling Multiple ICU Stays Within the Same Hospital Admission
+
+A single hospital admission can contain more than one ICU stay.
+
+This was checked explicitly.
+
+Result:
+
+- **2,399 hospital admissions had more than one ICU stay**
+
+Because LABEVENTS contains hospital admission IDs but not ICU stay IDs, laboratory records cannot be directly assigned to a specific ICU stay using IDs alone.
+
+Therefore, ICU timing information was used to connect laboratory measurements with the correct ICU stay.
+
+---
+
+### 8. Preparing ICU Timing Information
+
+A lightweight ICU mapping table was created containing only:
+
+- Hospital admission ID
+- ICU stay ID
+- ICU admission time
+
+The resulting mapping table contained:
+
+- **45,253 rows**
+- **3 columns**
+
+This smaller helper table was created to reduce memory usage during the laboratory-ICU matching process.
+
+---
+
+### 9. Improving Datetime Handling
+
+The laboratory timestamp column initially required conversion from text to datetime.
+
+Because the selected laboratory dataset contained nearly 10 million rows, converting the entire column after loading caused excessive memory pressure.
+
+To avoid this issue, the laboratory file was reloaded with the timestamp parsed directly as datetime during file reading.
+
+This reduced the need for a large post-loading datetime conversion step.
+
+---
+
+### 10. Memory-Efficient ICU Matching and First 24-Hour Filtering
+
+A direct merge between the nearly 10-million-row laboratory table and the ICU mapping table caused memory instability.
+
+To avoid this, the laboratory data was processed in **chunks of 500,000 rows**.
+
+For each chunk:
+
+1. Laboratory records were matched with ICU information using the hospital admission ID.
+2. The laboratory measurement time was compared with the ICU admission time.
+3. Only measurements occurring between ICU admission and the following 24 hours were retained.
+4. The filtered chunks were concatenated back into a single dataframe.
+
+Chunking was used only as a memory-management technique. No part of the dataset was intentionally excluded.
+
+The resulting first-24-hour laboratory dataset contained:
+
+- **1,735,994 rows**
+- **7 columns**
+
+---
+
+### 11. Current Laboratory Dataset Structure
+
+The current laboratory dataset is still in **long format**.
+
+This means that:
+
+- One row represents one laboratory measurement.
+- The same ICU stay can appear in multiple rows.
+- Different laboratory tests for the same patient are currently stored vertically.
+
+Example structure:
+
+- ICU stay
+- Laboratory test code
+- Measurement time
+- Laboratory value
+
+The next step will be to decide how repeated measurements of the same test within the first 24 hours should be summarized before converting the dataset into a patient-level wide feature table.
