@@ -337,3 +337,32 @@ Example structure:
 - Laboratory value
 
 The next step will be to decide how repeated measurements of the same test within the first 24 hours should be summarized before converting the dataset into a patient-level wide feature table.
+
+
+## Laboratory Feature Engineering Notes
+
+- The first 24-hour laboratory data was converted from long format to one row per ICU stay.
+- For each selected laboratory test, the first and last measurements were identified.
+- Instead of keeping the last value directly, a change feature was created:
+
+  **change = last value - first value**
+
+- Final lab structure uses:
+  - `Test_first`
+  - `Test_change`
+
+- Highly missing liver-related features were removed:
+  - AST
+  - ALT
+  - Bilirubin
+  - Albumin
+
+- Lactate, pH, pO2 and pCO2 were retained despite higher missingness because of their clinical relevance.
+
+- Final laboratory table shape:
+  - **44,626 ICU stays**
+  - **39 columns**
+
+- The original target cohort had 45,253 ICU stays, so **627 ICU stays had no usable selected laboratory measurements in the first 24 hours**.
+
+These 627 ICU stays were not removed yet. They may still contain useful information from other clinical data sources.
