@@ -366,3 +366,10 @@ The next step will be to decide how repeated measurements of the same test withi
 - The original target cohort had 45,253 ICU stays, so **627 ICU stays had no usable selected laboratory measurements in the first 24 hours**.
 
 These 627 ICU stays were not removed yet. They may still contain useful information from other clinical data sources.
+
+
+## Processed Data and New Notebook
+
+The processed first-24-hour laboratory feature table was saved as a Parquet file to avoid rerunning the full raw-data pipeline.
+
+A new notebook, `02_feature_engineering.ipynb`, was created to continue feature engineering using the saved processed data.
