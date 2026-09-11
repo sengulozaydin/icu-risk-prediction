@@ -396,3 +396,17 @@ Vital sign records from the first 24 hours of each ICU stay were processed.
 - `ICUSTAY_ID` was converted to integer format.
 - Missingness was checked against the full cohort of 45,253 ICU stays.
 - Urine output was missing in 2,665 stays (~5.89%).
+
+
+## Additional Output Features
+
+- Chest tube-related output records were identified from `OUTPUTEVENTS`.
+- Chest tube output was converted into a binary feature: `chest_tube_present`.
+- `chest_tube_present = 1` indicates a chest tube record within the first 24 hours, otherwise `0`.
+- EBL (Estimated Blood Loss) records were identified from OR and PACU output items.
+- Two EBL features were created:
+  - `ebl_present`: whether an EBL record exists in the first 24 hours.
+  - `ebl_24h`: total estimated blood loss in the first 24 hours.
+- EBL showed strong outliers, but they were kept unchanged for later model-stage evaluation.
+- Urine, chest tube, and EBL features were combined into a single output feature table.
+- The final table was saved as `output_features_first24h.parquet`.
