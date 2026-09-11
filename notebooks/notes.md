@@ -384,3 +384,15 @@ Vital sign records from the first 24 hours of each ICU stay were processed.
 - The data was pivoted so that each ICU stay represents one row.
 - Missing value rates were checked for all vital features.
 - GCS had the highest missingness (~44%) but was kept because of its clinical importance.
+
+
+## Urine Output Feature Engineering
+
+- Urine-related records were identified from `OUTPUTEVENTS` using relevant `ITEMID` values.
+- Only raw urine volume records were kept; rate-based and irrigation-related records were excluded.
+- Urine records were matched with ICU admission time (`INTIME`).
+- Only measurements within the first 24 hours of each ICU stay were retained.
+- Total urine output was calculated for each `ICUSTAY_ID`.
+- `ICUSTAY_ID` was converted to integer format.
+- Missingness was checked against the full cohort of 45,253 ICU stays.
+- Urine output was missing in 2,665 stays (~5.89%).
