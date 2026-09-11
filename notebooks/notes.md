@@ -419,3 +419,22 @@ Vital sign records from the first 24 hours of each ICU stay were processed.
 - Standard MIMIC-III source tables and ITEMID definitions were used.
 - The final table contains 45,253 unique ICU stays with no missing values.
 - Mechanical ventilation was present in 47.86%, vasopressor use in 30.20%, and RRT/CRRT in 2.57% of ICU stays.
+
+
+# Demographic and admission features
+
+Use the existing adult ICU cohort without filtering, reordering or expanding it. Output exactly `ICUSTAY_ID`, `age`, `gender`, `admission_type`, `admission_location` to `data/processed/demographic_features.parquet`.
+
+## Sources and timing
+
+- Existing `adult_icu_cohort_first24h.parquet`: ICUSTAY_ID, SUBJECT_ID, HADM_ID, INTIME.
+- PATIENTS: **only SUBJECT_ID, DOB, GENDER**; left join on SUBJECT_ID with many-to-one validation.
+- ADMISSIONS: **only SUBJECT_ID, HADM_ID, ADMISSION_TYPE, ADMISSION_LOCATION**; left join on both hospital-admission and patient identifiers with many-to-one validation.
+
+No death, discharge, outcome, insurance, marital status, ethnicity, religion or language columns are read. Admission attributes are treated as information available at hospital admission; no later measurement or treatment information is used. The retrospective source does not provide field-level revision history.
+
+## Age policy
+
+Compute continuous age at ICU entry as `(INTIME - DOB).total_seconds() / (365.25 * 86400)`. Use microsecond datetime resolution to avoid overflowing nanosecond timedeltas when DOB is shifted by centuries. Do not round age before applying the adult-cohort checks.
+
+[MIMIC-III PATIENTS documentation](https://mimic.mit.edu/docs/iii/tables/patients.html) explains that DOB is shifted for older patients, yielding ages near 300 years. Following the existing project's top-coding convention, cap calculated ages at **90**. The value 90 represents the upper age group, including anonymized older patients; it is not a recovered exact age. No age-group column is added. Missing source values remain missing; no imputation or category encoding is applied. Original category strings, including explicit unknown categories, are preserved.
