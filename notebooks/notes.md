@@ -373,3 +373,14 @@ These 627 ICU stays were not removed yet. They may still contain useful informat
 The processed first-24-hour laboratory feature table was saved as a Parquet file to avoid rerunning the full raw-data pipeline.
 
 A new notebook, `02_feature_engineering.ipynb`, was created to continue feature engineering using the saved processed data.
+
+
+## Vital Signs Feature Engineering
+
+Vital sign records from the first 24 hours of each ICU stay were processed.
+
+- Fahrenheit temperatures were converted to Celsius and merged under a single `Temperature` variable.
+- For each ICU stay and each vital sign, `first`, `last`, `min`, and `max` values were calculated.
+- The data was pivoted so that each ICU stay represents one row.
+- Missing value rates were checked for all vital features.
+- GCS had the highest missingness (~44%) but was kept because of its clinical importance.
