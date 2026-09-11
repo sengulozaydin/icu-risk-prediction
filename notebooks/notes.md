@@ -410,3 +410,12 @@ Vital sign records from the first 24 hours of each ICU stay were processed.
 - EBL showed strong outliers, but they were kept unchanged for later model-stage evaluation.
 - Urine, chest tube, and EBL features were combined into a single output feature table.
 - The final table was saved as `output_features_first24h.parquet`.
+
+
+## First 24-Hour Intervention Features
+
+- Three binary intervention features were created: mechanical ventilation, vasopressor use, and RRT/CRRT.
+- Only events occurring within the first 24 hours after ICU admission were used.
+- Standard MIMIC-III source tables and ITEMID definitions were used.
+- The final table contains 45,253 unique ICU stays with no missing values.
+- Mechanical ventilation was present in 47.86%, vasopressor use in 30.20%, and RRT/CRRT in 2.57% of ICU stays.
