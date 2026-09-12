@@ -1,0 +1,280 @@
+{
+  "shape": [
+    45253,
+    85
+  ],
+  "unique_ICUSTAY_ID": 45253,
+  "predictor_count": 83,
+  "infinite_values": 0,
+  "unexpected_leakage_columns": [],
+  "missing_cells_by_group": {
+    "lab": 245988,
+    "vital": 176204,
+    "urine_output_24h": 2750
+  },
+  "total_missing_cells": 424942,
+  "rows_with_missing": 40043,
+  "missing_by_column": {
+    "Lactate_change": 24771,
+    "Lactate_first": 24771,
+    "GCS Total_last": 20274,
+    "GCS Total_first": 20274,
+    "GCS Total_min": 20274,
+    "GCS Total_max": 20274,
+    "pO2_change": 18552,
+    "pCO2_first": 18552,
+    "pCO2_change": 18552,
+    "pO2_first": 18552,
+    "pH_change": 17414,
+    "pH_first": 17414,
+    "INR(PT)_first": 9344,
+    "INR(PT)_change": 9344,
+    "Calcium, Total_first": 7666,
+    "Calcium, Total_change": 7666,
+    "Phosphate_first": 7424,
+    "Phosphate_change": 7424,
+    "Mean BP_first": 6725,
+    "Mean BP_max": 6725,
+    "Mean BP_last": 6725,
+    "Mean BP_min": 6725,
+    "Diastolic BP_first": 6700,
+    "Diastolic BP_min": 6700,
+    "Diastolic BP_max": 6700,
+    "Diastolic BP_last": 6700,
+    "Systolic BP_max": 6681,
+    "Systolic BP_min": 6681,
+    "Systolic BP_first": 6681,
+    "Systolic BP_last": 6681,
+    "Magnesium_change": 3281,
+    "Magnesium_first": 3281,
+    "urine_output_24h": 2750,
+    "Glucose_change": 2095,
+    "Glucose_first": 2095,
+    "Anion Gap_first": 1997,
+    "Anion Gap_change": 1997,
+    "Potassium_change": 1649,
+    "Potassium_first": 1649,
+    "Hemoglobin_change": 1618,
+    "Hemoglobin_first": 1618,
+    "White Blood Cells_change": 1506,
+    "White Blood Cells_first": 1506,
+    "Temperature_first": 1449,
+    "Temperature_min": 1449,
+    "Temperature_last": 1449,
+    "Temperature_max": 1449,
+    "Platelet Count_change": 1388,
+    "Platelet Count_first": 1388,
+    "Sodium_first": 1331,
+    "Sodium_change": 1331,
+    "Bicarbonate_first": 1193,
+    "Bicarbonate_change": 1193,
+    "Chloride_first": 1183,
+    "Chloride_change": 1183,
+    "Urea Nitrogen_first": 1024,
+    "Urea Nitrogen_change": 1024,
+    "Creatinine_first": 1006,
+    "Creatinine_change": 1006,
+    "Respiratory Rate_last": 787,
+    "Respiratory Rate_first": 787,
+    "Respiratory Rate_min": 787,
+    "Respiratory Rate_max": 787,
+    "SpO2_max": 726,
+    "SpO2_min": 726,
+    "SpO2_first": 726,
+    "SpO2_last": 726,
+    "Heart Rate_last": 709,
+    "Heart Rate_first": 709,
+    "Heart Rate_min": 709,
+    "Heart Rate_max": 709
+  },
+  "target_counts": {
+    "0": 39893,
+    "1": 5360
+  },
+  "review_flags": [
+    {
+      "column": "Mean BP_first",
+      "flagged_rows": 1,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Systolic BP_first",
+      "flagged_rows": 3,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Mean BP_last",
+      "flagged_rows": 1,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Systolic BP_last",
+      "flagged_rows": 1,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Temperature_last",
+      "flagged_rows": 1,
+      "reason": "Outside benchmark VALID temperature interval but within broad extraction bounds; context needed.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Diastolic BP_min",
+      "flagged_rows": 3,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Heart Rate_min",
+      "flagged_rows": 1,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Mean BP_min",
+      "flagged_rows": 3,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Respiratory Rate_min",
+      "flagged_rows": 1,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "SpO2_min",
+      "flagged_rows": 4,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Systolic BP_min",
+      "flagged_rows": 6,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Temperature_min",
+      "flagged_rows": 7,
+      "reason": "Outside benchmark VALID temperature interval but within broad extraction bounds; context needed.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Systolic BP_max",
+      "flagged_rows": 1,
+      "reason": "Sub-unit positive vital reading; possible scaling or recording artifact. No inferred unit correction.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Temperature_max",
+      "flagged_rows": 1,
+      "reason": "Outside benchmark VALID temperature interval but within broad extraction bounds; context needed.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Glucose first/derived last",
+      "flagged_rows": 1,
+      "reason": "Extreme lab endpoint above review threshold 2200; thresholds are screening flags, not proof of error.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Magnesium first/derived last",
+      "flagged_rows": 4,
+      "reason": "Extreme lab endpoint above review threshold 22; thresholds are screening flags, not proof of error.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Phosphate first/derived last",
+      "flagged_rows": 3,
+      "reason": "Extreme lab endpoint above review threshold 22; thresholds are screening flags, not proof of error.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Potassium first/derived last",
+      "flagged_rows": 2,
+      "reason": "Extreme lab endpoint above review threshold 15; thresholds are screening flags, not proof of error.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Platelet Count first/derived last",
+      "flagged_rows": 1,
+      "reason": "Extreme lab endpoint above review threshold 2200; thresholds are screening flags, not proof of error.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "pO2 first/derived last",
+      "flagged_rows": 1,
+      "reason": "Extreme lab endpoint above review threshold 770; thresholds are screening flags, not proof of error.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "INR(PT) first/derived last",
+      "flagged_rows": 3,
+      "reason": "Extreme lab endpoint above review threshold 50; thresholds are screening flags, not proof of error.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Calcium, Total first/derived last",
+      "flagged_rows": 3,
+      "reason": "Extreme lab endpoint above review threshold 20; thresholds are screening flags, not proof of error.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Creatinine first/derived last",
+      "flagged_rows": 1,
+      "reason": "Recorded zero may reflect assay/reporting resolution; retained without arbitrary imputation.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Urea Nitrogen first/derived last",
+      "flagged_rows": 1,
+      "reason": "Recorded zero may reflect assay/reporting resolution; retained without arbitrary imputation.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "White Blood Cells first/derived last",
+      "flagged_rows": 1,
+      "reason": "Recorded zero may reflect assay/reporting resolution; retained without arbitrary imputation.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "Anion Gap_first",
+      "flagged_rows": 1,
+      "reason": "Negative anion gap is possible; verify specimen/context rather than blanket deletion.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "urine_output_24h",
+      "flagged_rows": 9,
+      "reason": "Above 20 L/day; max 98,280 mL is a sum of multiple high raw entries, not a join duplicate. Verify measurement/irrigation context.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "ebl_24h",
+      "flagged_rows": 34,
+      "reason": "EBL tails retained by instruction; review during modeling. No cap/removal.",
+      "action": "retained_for_review"
+    },
+    {
+      "column": "admission_location",
+      "flagged_rows": 4,
+      "reason": "Explicit unknown category retained; not silently converted or encoded.",
+      "action": "retained_for_review"
+    }
+  ],
+  "remaining_review_note": "Structural checks passed, but flagged clinical extremes remain unresolved; no assertion that every retained extreme is physiologically valid.",
+  "corrections": {
+    "vital_changed_cells": 6840,
+    "lab_changed_cells": 6,
+    "invalid_hemoglobin_records": 2,
+    "invalid_INR_records": 2,
+    "urine_223940": 1200,
+    "urine_247320": 5215,
+    "EBL_unchanged": true
+  }
+}

@@ -17,7 +17,7 @@ def source(name):
     return path if path.is_file() else path / (name + '.csv')
 
 def run(expected_cohort_size=45253):
-    nb = json.loads((ROOT / 'notebooks/02_feature_engineering.ipynb').read_text())
+    nb = json.loads((ROOT / 'notebooks/02_lab_vital_features.ipynb').read_text())
     mappings = []
     for cell in nb['cells']:
         if cell['cell_type'] != 'code':

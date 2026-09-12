@@ -438,3 +438,17 @@ No death, discharge, outcome, insurance, marital status, ethnicity, religion or 
 Compute continuous age at ICU entry as `(INTIME - DOB).total_seconds() / (365.25 * 86400)`. Use microsecond datetime resolution to avoid overflowing nanosecond timedeltas when DOB is shifted by centuries. Do not round age before applying the adult-cohort checks.
 
 [MIMIC-III PATIENTS documentation](https://mimic.mit.edu/docs/iii/tables/patients.html) explains that DOB is shifted for older patients, yielding ages near 300 years. Following the existing project's top-coding convention, cap calculated ages at **90**. The value 90 represents the upper age group, including anonymized older patients; it is not a recovered exact age. No age-group column is added. Missing source values remain missing; no imputation or category encoding is applied. Original category strings, including explicit unknown categories, are preserved.
+
+
+## Final Dataset Preparation and Quality Control
+
+- Lab, vital, output, intervention, and demographic feature tables were merged using `ICUSTAY_ID`.
+- The full cohort of 45,253 ICU stays was preserved with no duplicate IDs.
+- Two missingness indicators were added: `lab_missing` and `vital_missing`.
+- `HOSPITAL_EXPIRE_FLAG` was added as the mortality target.
+- EBL missing values were set to 0 only when no EBL record was present.
+- Source-level data quality checks were performed for labs, vitals, urine output, and extreme values.
+- Invalid urine and vital measurements were corrected at the source feature level.
+- Leakage, duplicate IDs, infinite values, and impossible negative values were checked.
+- Remaining lab, vital, and urine missing values were intentionally preserved for later imputation.
+- Final dataset: **45,253 rows × 85 columns**.
