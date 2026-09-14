@@ -464,3 +464,14 @@ The final dataset was prepared for machine learning by separating predictors, ta
 - `ICUSTAY_ID` and `SUBJECT_ID` were excluded from model predictors.
 - The data was split into approximately 80% training and 20% test sets.
 - `GroupShuffleSplit` was used to prevent ICU stays from the same patient from appearing in both training and test sets.
+
+
+## Preprocessing and Cross-Validation Setup
+
+- The training data was separated into numerical and categorical feature groups.
+- Numerical features were assigned a median imputation strategy using `SimpleImputer`.
+- Categorical features were assigned a `OneHotEncoder` with unknown-category handling.
+- Both preprocessing steps were combined using `ColumnTransformer`.
+- `StratifiedGroupKFold` was prepared for 5-fold cross-validation.
+- Patient-level grouping will use `SUBJECT_ID` so that multiple ICU stays from the same patient remain in the same fold.
+- A final sanity check confirmed 3 categorical features, 80 numerical features, and a training shape of `(36169, 83)`.
