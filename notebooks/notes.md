@@ -452,3 +452,15 @@ Compute continuous age at ICU entry as `(INTIME - DOB).total_seconds() / (365.25
 - Leakage, duplicate IDs, infinite values, and impossible negative values were checked.
 - Remaining lab, vital, and urine missing values were intentionally preserved for later imputation.
 - Final dataset: **45,253 rows × 85 columns**.
+
+
+
+## Train-Test Split
+
+The final dataset was prepared for machine learning by separating predictors, target, and patient identifiers.
+
+- `HOSPITAL_EXPIRE_FLAG` was defined as the target variable.
+- `SUBJECT_ID` was used only to keep multiple ICU stays from the same patient in the same split.
+- `ICUSTAY_ID` and `SUBJECT_ID` were excluded from model predictors.
+- The data was split into approximately 80% training and 20% test sets.
+- `GroupShuffleSplit` was used to prevent ICU stays from the same patient from appearing in both training and test sets.
