@@ -596,3 +596,62 @@ Different probability thresholds were evaluated for the tuned and balanced Decis
 Increasing the threshold improved precision but reduced recall. The model was not able to achieve high precision and recall simultaneously.
 
 Overall, the tuned and class-balanced Decision Tree provided much better recall than the baseline model, but its precision-recall balance remained limited.
+
+
+
+## Random Forest
+
+A Random Forest classifier was evaluated for ICU mortality prediction.
+
+- Numerical features were processed using median imputation.
+- Categorical features were transformed using `OneHotEncoder`.
+- StandardScaler was not used because Random Forest is not sensitive to feature scaling.
+- Model performance was evaluated using 5-fold `StratifiedGroupKFold`, keeping ICU stays from the same patient in the same fold.
+
+### Baseline Random Forest
+
+The default Random Forest produced:
+
+- ROC-AUC: **0.846**
+- Precision: **0.741**
+- Recall: **0.159**
+- F1: **0.262**
+
+The model had strong precision and good discrimination, but recall was very low.
+
+### Hyperparameter Tuning
+
+`GridSearchCV` was used to test different Random Forest settings.
+
+The best parameters were:
+
+- `n_estimators = 200`
+- `max_depth = None`
+- `min_samples_leaf = 5`
+- `max_features = "sqrt"`
+
+With these parameters:
+
+- ROC-AUC: **0.855**
+- Precision: **0.798**
+- Recall: **0.135**
+- F1: **0.231**
+
+Hyperparameter tuning slightly improved ROC-AUC and precision, but recall decreased further.
+
+### Class Weight Balancing
+
+Because mortality is the minority class, `class_weight="balanced"` was added to the tuned Random Forest.
+
+The resulting performance was:
+
+- ROC-AUC: **0.862**
+- Precision: **0.455**
+- Recall: **0.552**
+- F1: **0.498**
+
+Class weighting substantially improved recall while maintaining a reasonable precision level. It also produced the highest F1 score among the tested Random Forest configurations.
+
+Threshold tuning was not applied because precision and recall were already relatively balanced, and changing the threshold would mainly trade one metric for the other rather than improve both simultaneously.
+
+Overall, the tuned and class-balanced Random Forest provided the strongest and most balanced Random Forest performance for this dataset.
