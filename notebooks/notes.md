@@ -475,3 +475,31 @@ The final dataset was prepared for machine learning by separating predictors, ta
 - `StratifiedGroupKFold` was prepared for 5-fold cross-validation.
 - Patient-level grouping will use `SUBJECT_ID` so that multiple ICU stays from the same patient remain in the same fold.
 - A final sanity check confirmed 3 categorical features, 80 numerical features, and a training shape of `(36169, 83)`.
+
+
+
+## Logistic Regression
+
+Logistic Regression was used as the first baseline classification model for ICU mortality prediction.
+
+- Numerical features were processed with median imputation followed by `StandardScaler`.
+- Categorical features were transformed using `OneHotEncoder`.
+- Preprocessing and Logistic Regression were combined in a single pipeline.
+- Model performance was evaluated using 5-fold `StratifiedGroupKFold`, keeping ICU stays from the same patient in the same fold.
+- The baseline model achieved approximately:
+  - ROC-AUC: **0.84**
+  - Precision: **0.64**
+  - Recall: **0.24**
+  - F1: **0.35**
+- Because mortality represented the minority class, `class_weight="balanced"` was also tested.
+- The balanced model increased recall to approximately **0.74**, but reduced precision to approximately **0.31**.
+- Threshold tuning was then applied to both models.
+- For the standard Logistic Regression, a threshold of **0.20** provided a more suitable trade-off for this clinical task:
+  - Precision: **0.40**
+  - Recall: **0.57**
+  - F1: **0.47**
+- For the balanced Logistic Regression, a threshold of **0.70** produced:
+  - Precision: **0.43**
+  - Recall: **0.52**
+  - F1: **0.47**
+- Since identifying high-risk patients is especially important in this project, the standard Logistic Regression with a **0.20 threshold** was retained as the stronger Logistic Regression candidate due to its higher recall.
