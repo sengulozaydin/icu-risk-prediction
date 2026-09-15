@@ -527,3 +527,72 @@ KNN was evaluated as a distance-based classification model for ICU mortality pre
   - `K=7`: Precision **0.22**, Recall **0.78**, F1 **0.35**
 - `K=3 + SMOTE` was retained as the most balanced KNN candidate because it provided the highest precision and F1 among the SMOTE-based KNN models while maintaining high recall.
 - Overall, KNN showed a weaker precision-recall balance than Logistic Regression for this dataset.
+
+
+
+## Decision Tree
+
+A Decision Tree classifier was evaluated for ICU mortality prediction.
+
+- Numerical features were processed using median imputation.
+- Categorical features were transformed using `OneHotEncoder`.
+- StandardScaler was not used because Decision Tree models are not sensitive to feature scaling.
+- Model performance was evaluated using 5-fold `StratifiedGroupKFold`, keeping ICU stays from the same patient in the same fold.
+
+### Baseline Decision Tree
+
+The default Decision Tree showed weak performance:
+
+- ROC-AUC: **0.621**
+- Precision: **0.323**
+- Recall: **0.339**
+- F1: **0.331**
+
+### Hyperparameter Tuning
+
+`GridSearchCV` was used to test different values of:
+
+- `max_depth`
+- `min_samples_split`
+- `min_samples_leaf`
+
+The best parameters were:
+
+- `max_depth = 5`
+- `min_samples_leaf = 5`
+- `min_samples_split = 2`
+
+With these parameters:
+
+- ROC-AUC: **0.760**
+- Precision: **0.577**
+- Recall: **0.142**
+- F1: **0.226**
+
+Although ROC-AUC improved substantially, recall became very low.
+
+### Class Weight Balancing
+
+Because mortality is the minority class, `class_weight="balanced"` was added to the tuned Decision Tree.
+
+Performance improved to:
+
+- ROC-AUC: **0.772**
+- Precision: **0.253**
+- Recall: **0.701**
+- F1: **0.371**
+
+Class weighting substantially increased recall, but precision decreased due to a higher number of false-positive predictions.
+
+### Threshold Tuning
+
+Different probability thresholds were evaluated for the tuned and balanced Decision Tree:
+
+- Threshold `0.5`: Precision **0.252**, Recall **0.701**, F1 **0.370**
+- Threshold `0.6`: Precision **0.312**, Recall **0.536**, F1 **0.394**
+- Threshold `0.7`: Precision **0.356**, Recall **0.442**, F1 **0.394**
+- Threshold `0.8`: Precision **0.433**, Recall **0.294**, F1 **0.350**
+
+Increasing the threshold improved precision but reduced recall. The model was not able to achieve high precision and recall simultaneously.
+
+Overall, the tuned and class-balanced Decision Tree provided much better recall than the baseline model, but its precision-recall balance remained limited.
