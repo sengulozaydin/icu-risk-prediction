@@ -503,3 +503,27 @@ Logistic Regression was used as the first baseline classification model for ICU 
   - Recall: **0.52**
   - F1: **0.47**
 - Since identifying high-risk patients is especially important in this project, the standard Logistic Regression with a **0.20 threshold** was retained as the stronger Logistic Regression candidate due to its higher recall.
+
+
+## K-Nearest Neighbors (KNN)
+
+KNN was evaluated as a distance-based classification model for ICU mortality prediction.
+
+- Numerical features were processed using median imputation followed by `StandardScaler`.
+- Categorical features were transformed using `OneHotEncoder`.
+- Preprocessing and KNN were combined in a single pipeline.
+- Model performance was evaluated with 5-fold `StratifiedGroupKFold`, keeping ICU stays from the same patient in the same fold.
+- Different `n_neighbors` values were tested.
+- Without class balancing, KNN showed low recall. The best recall among the tested standard KNN models was obtained with `K=3`:
+  - ROC-AUC: **0.67**
+  - Precision: **0.52**
+  - Recall: **0.17**
+  - F1: **0.25**
+- Because mortality is the minority class, SMOTE was then applied inside the cross-validation pipeline.
+- SMOTE substantially increased recall but reduced precision.
+- With SMOTE:
+  - `K=3`: Precision **0.24**, Recall **0.71**, F1 **0.35**
+  - `K=5`: Precision **0.23**, Recall **0.75**, F1 **0.35**
+  - `K=7`: Precision **0.22**, Recall **0.78**, F1 **0.35**
+- `K=3 + SMOTE` was retained as the most balanced KNN candidate because it provided the highest precision and F1 among the SMOTE-based KNN models while maintaining high recall.
+- Overall, KNN showed a weaker precision-recall balance than Logistic Regression for this dataset.
