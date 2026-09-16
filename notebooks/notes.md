@@ -655,3 +655,82 @@ Class weighting substantially improved recall while maintaining a reasonable pre
 Threshold tuning was not applied because precision and recall were already relatively balanced, and changing the threshold would mainly trade one metric for the other rather than improve both simultaneously.
 
 Overall, the tuned and class-balanced Random Forest provided the strongest and most balanced Random Forest performance for this dataset.
+
+
+
+## XGBoost
+
+An XGBoost classifier was evaluated for ICU mortality prediction.
+
+- Numerical features were processed using median imputation.
+- Categorical features were transformed using `OneHotEncoder`.
+- StandardScaler was not used because XGBoost is not sensitive to feature scaling.
+- Model performance was evaluated using 5-fold `StratifiedGroupKFold`, keeping ICU stays from the same patient in the same fold.
+
+### Baseline XGBoost
+
+The default XGBoost model produced:
+
+- ROC-AUC: **0.855**
+- Precision: **0.606**
+- Recall: **0.314**
+- F1: **0.413**
+
+The model showed good discrimination and precision, but recall remained relatively low.
+
+### Hyperparameter Tuning
+
+`GridSearchCV` was used to test different XGBoost settings.
+
+The best parameters were:
+
+- `n_estimators = 200`
+- `max_depth = 5`
+- `learning_rate = 0.1`
+
+With these parameters:
+
+- ROC-AUC: **0.870**
+- Precision: **0.666**
+- Recall: **0.300**
+- F1: **0.414**
+
+Hyperparameter tuning improved ROC-AUC and precision, but recall remained low.
+
+### Class Imbalance Adjustment
+
+Because mortality is the minority class, `scale_pos_weight` was used to give more importance to positive cases.
+
+The class ratio was calculated as:
+
+- Negative class: **31,842**
+- Positive class: **4,327**
+- `scale_pos_weight ≈ 7.36`
+
+With class balancing:
+
+- ROC-AUC: **0.864**
+- Precision: **0.382**
+- Recall: **0.680**
+- F1: **0.489**
+
+Class balancing substantially increased recall, while precision decreased as expected.
+
+### Threshold Tuning
+
+Different probability thresholds were evaluated using out-of-fold predictions from the tuned and class-balanced XGBoost model.
+
+- Threshold `0.5`: Precision **0.381**, Recall **0.680**, F1 **0.489**
+- Threshold `0.6`: Precision **0.446**, Recall **0.587**, F1 **0.507**
+- Threshold `0.7`: Precision **0.519**, Recall **0.464**, F1 **0.490**
+- Threshold `0.8`: Precision **0.612**, Recall **0.320**, F1 **0.420**
+
+Threshold `0.6` provided the strongest overall precision-recall balance and the highest F1 score.
+
+Overall, the best XGBoost configuration was:
+
+- Tuned hyperparameters
+- `scale_pos_weight ≈ 7.36`
+- Classification threshold = **0.6**
+
+This configuration achieved a strong balance between precision and recall while maintaining high ROC-AUC.
