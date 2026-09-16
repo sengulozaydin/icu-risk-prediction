@@ -734,3 +734,73 @@ Overall, the best XGBoost configuration was:
 - Classification threshold = **0.6**
 
 This configuration achieved a strong balance between precision and recall while maintaining high ROC-AUC.
+
+
+
+
+## Deep Learning
+
+A feed-forward neural network was evaluated for ICU mortality prediction.
+
+- Numerical features were processed using median imputation followed by `StandardScaler`.
+- Categorical features were transformed using `OneHotEncoder`.
+- The training data was split into train and validation subsets using `StratifiedGroupKFold`, keeping ICU stays from the same patient in the same group.
+- A neural network with two hidden layers was used:
+  - 64 neurons
+  - 32 neurons
+  - 1 output neuron
+- ReLU activation was used in the hidden layers.
+- Sigmoid activation was used in the output layer for binary classification.
+- The model was trained with:
+  - Optimizer: `Adam`
+  - Loss: `binary_crossentropy`
+  - Batch size: `64`
+  - Maximum epochs: `50`
+- `EarlyStopping` with `patience=5` and `restore_best_weights=True` was used to reduce overfitting.
+
+### Baseline Neural Network
+
+The baseline model stopped after 11 epochs due to EarlyStopping.
+
+Validation performance:
+
+- ROC-AUC: **0.864**
+- Precision: **0.624**
+- Recall: **0.325**
+- F1: **0.427**
+
+The model showed good discrimination and precision, but recall remained relatively low.
+
+### Class Weight Balancing
+
+Because mortality is the minority class, class weights were added during model training.
+
+The balanced model stopped after 8 epochs due to EarlyStopping.
+
+Validation performance:
+
+- ROC-AUC: **0.868**
+- Precision: **0.350**
+- Recall: **0.753**
+- F1: **0.477**
+
+Class weighting substantially improved recall, although precision decreased.
+
+### Threshold Tuning
+
+Different classification thresholds were evaluated on the balanced neural network:
+
+- Threshold `0.5`: Precision **0.350**, Recall **0.753**, F1 **0.477**
+- Threshold `0.6`: Precision **0.404**, Recall **0.651**, F1 **0.499**
+- Threshold `0.7`: Precision **0.484**, Recall **0.532**, F1 **0.507**
+- Threshold `0.8`: Precision **0.575**, Recall **0.384**, F1 **0.460**
+
+Threshold `0.7` produced the highest F1 score, but threshold `0.6` was preferred because recall was considered more important for ICU mortality prediction.
+
+Overall, the selected Deep Learning configuration was:
+
+- Two hidden layers: `64 → 32`
+- Class weighting enabled
+- Classification threshold = **0.6**
+
+This configuration provided a stronger recall-focused balance for the clinical objective.
