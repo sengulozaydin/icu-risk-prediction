@@ -818,3 +818,20 @@ Among them, Deep Learning was selected as the final candidate because recall was
 - Deep Learning: Precision **0.404**, Recall **0.651**
 
 Deep Learning provided the highest recall while keeping precision at a reasonable level.
+
+
+
+## Final Test Evaluation
+
+The selected Deep Learning model was evaluated on the untouched test set using the previously selected threshold of `0.6`.
+
+Final test performance:
+
+- ROC-AUC: **0.852**
+- Precision: **0.347**
+- Recall: **0.682**
+- F1: **0.460**
+
+Compared with validation results, performance decreased slightly, but the model maintained strong recall and similar overall discrimination.
+
+The final model successfully preserved the recall-focused objective on unseen test data.
