@@ -804,3 +804,17 @@ Overall, the selected Deep Learning configuration was:
 - Classification threshold = **0.6**
 
 This configuration provided a stronger recall-focused balance for the clinical objective.
+
+
+
+### Final Model Candidates
+
+Random Forest, XGBoost and Deep Learning were the strongest models overall.
+
+Among them, Deep Learning was selected as the final candidate because recall was the main priority for ICU mortality prediction.
+
+- Random Forest: Precision **0.455**, Recall **0.552**
+- XGBoost: Precision **0.446**, Recall **0.587**
+- Deep Learning: Precision **0.404**, Recall **0.651**
+
+Deep Learning provided the highest recall while keeping precision at a reasonable level.
