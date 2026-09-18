@@ -200,8 +200,8 @@ Follow the workflow below. **Notebooks are the primary source** for code and ana
 
 Presentations covering the project’s data engineering and modeling workflows, key decisions, and final results.
 
-- [MIMIC-III Data Engineering and Feature Engineering — English PDF](reports/MIMIC_III_Data_Engineering_EN.pdf)
-- [ICU Mortality Modeling and Final Evaluation — English PDF](reports/ICU_Mortality_Modeling_EN.pdf)
+- [MIMIC-III Data Engineering and Feature Engineering](reports/MIMIC_III_Data_Engineering_EN.pdf)
+- [ICU Mortality Modeling and Final Evaluation](reports/ICU_Mortality_Modeling_EN.pdf)
 
 ## Requirements / Setup
 
