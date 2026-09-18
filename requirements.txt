@@ -1,11 +1,11 @@
-# Direct runtime dependencies used by the notebooks and scripts.
-# Versions reflect the existing Python 3.12 project environment.
-pandas==3.0.5
-numpy==2.5.2
-scikit-learn==1.9.1
-imbalanced-learn==0.14.2
-xgboost==3.4.1
-tensorflow==2.21.0
-matplotlib==3.11.1
-pyarrow==25.0.1
-ipykernel==7.3.0
+# Direct dependencies used by the project notebooks and scripts.
+# Developed on Python 3.12; no strict environment lock is imposed here.
+pandas
+numpy
+scikit-learn
+imbalanced-learn
+xgboost
+tensorflow
+matplotlib
+pyarrow
+ipykernel

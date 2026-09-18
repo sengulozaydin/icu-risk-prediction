@@ -4,14 +4,14 @@ An end-to-end clinical machine learning project: from large-scale ICU event proc
 
 ## Project Highlights
 
-- **MIMIC-III clinical database:** 45,253 adult ICU stays with a first 24-hour clinical window.
+- **MIMIC-III clinical database:** 45,253 adult ICU stays. The first 24-hour window captures early clinical information while reducing outcome leakage.
 - **83 predictors:** laboratory trajectories, vital signs, outputs, interventions, and demographics.
 - **Patient-level split using `SUBJECT_ID`:** repeated ICU stays stay together, with explicit leakage prevention.
 - **Class imbalance handling:** class weighting, SMOTE experiments, and threshold tuning across multiple ML and Deep Learning models.
-- **Final model: Deep Learning**, with a 64 → 32 → 1 architecture and a classification threshold of **0.6**.
+- **Final model: Deep Learning**, with a 64 → 32 → 1 architecture and threshold **0.6**. Recall was prioritized to reduce missed mortality cases.
 - **Held-out test:** ROC-AUC **0.852**, recall **0.682**, precision **0.347**, and F1 **0.460**.
 
-[Explore the notebooks](#explore-the-project) · [Model comparison](#model-comparison) · [Final test results](#final-test-results) · [Presentations](#presentations)
+[Start with data engineering](notebooks/data_engineering/01_data_overview.ipynb) · [Model comparison](notebooks/modeling/08_model_comparison.ipynb) · [Final test evaluation](notebooks/modeling/09_final_test_evaluation.ipynb) · [Presentations](#presentations)
 
 ## Project Overview
 
@@ -179,37 +179,30 @@ icu-risk-prediction/
 
 ## Explore the Project
 
-Read notebooks in numeric order within each phase. The code and analysis are available directly on GitHub; PDFs and figures provide supporting summaries.
+Follow the workflow below. **Notebooks are the primary source** for code and analysis; presentations and figures summarize the work.
 
-### Data engineering
-
-1. [01_data_overview.ipynb](notebooks/data_engineering/01_data_overview.ipynb) — source tables, cohort definition, and initial laboratory work.
-2. [02_lab_vital_features.ipynb](notebooks/data_engineering/02_lab_vital_features.ipynb) — laboratory and vital-sign extraction, cleaning, and aggregation.
-3. [03_output_events.ipynb](notebooks/data_engineering/03_output_events.ipynb) — urine, chest-tube, and blood-loss features.
-4. [04_interventions.ipynb](notebooks/data_engineering/04_interventions.ipynb) — ventilation, vasopressors, and renal replacement therapy.
-5. [05_demographics.ipynb](notebooks/data_engineering/05_demographics.ipynb) — age, gender, and admission characteristics.
-6. [06_final_dataset.ipynb](notebooks/data_engineering/06_final_dataset.ipynb) — cohort-preserving joins and quality checks.
-
-### Modeling
-
-1. [01_ML_preprocessing.ipynb](notebooks/modeling/01_ML_preprocessing.ipynb) — predictor separation and patient-level split.
-2. [02_logistic_regression.ipynb](notebooks/modeling/02_logistic_regression.ipynb) — linear reference model.
-3. [03_knn.ipynb](notebooks/modeling/03_knn.ipynb) — distance-based modeling and SMOTE.
-4. [04_decision_tree.ipynb](notebooks/modeling/04_decision_tree.ipynb) — tree complexity and class balance.
-5. [05_random_forest.ipynb](notebooks/modeling/05_random_forest.ipynb) — bagged tree ensemble.
-6. [06_xgboost.ipynb](notebooks/modeling/06_xgboost.ipynb) — boosted tree ensemble.
-7. [07_deep_learning.ipynb](notebooks/modeling/07_deep_learning.ipynb) — neural-network development and threshold selection.
-8. [08_model_comparison.ipynb](notebooks/modeling/08_model_comparison.ipynb) — comparison tables, figures, and candidate selection.
-9. [09_final_test_evaluation.ipynb](notebooks/modeling/09_final_test_evaluation.ipynb) — final held-out test evaluation.
+| Stage | Start here |
+|---|---|
+| 1. Data engineering | [Source tables and adult ICU cohort](notebooks/data_engineering/01_data_overview.ipynb) |
+| 2. Feature engineering | [Labs and vitals](notebooks/data_engineering/02_lab_vital_features.ipynb), [outputs](notebooks/data_engineering/03_output_events.ipynb), [interventions](notebooks/data_engineering/04_interventions.ipynb), and [demographics](notebooks/data_engineering/05_demographics.ipynb), followed by [final dataset assembly](notebooks/data_engineering/06_final_dataset.ipynb) |
+| 3. ML preprocessing | [Predictors, preprocessing, and patient-level split](notebooks/modeling/01_ML_preprocessing.ipynb) |
+| 4. Classical models | [Logistic Regression](notebooks/modeling/02_logistic_regression.ipynb), [KNN](notebooks/modeling/03_knn.ipynb), [Decision Tree](notebooks/modeling/04_decision_tree.ipynb), and [Random Forest](notebooks/modeling/05_random_forest.ipynb) |
+| 5. XGBoost | [Boosting, class weighting, and threshold tuning](notebooks/modeling/06_xgboost.ipynb) |
+| 6. Deep Learning | [Network development and validation](notebooks/modeling/07_deep_learning.ipynb) |
+| 7. Model comparison | [Compare candidates and select the final model](notebooks/modeling/08_model_comparison.ipynb) |
+| 8. Final test evaluation | [Evaluate the selected network on held-out patients](notebooks/modeling/09_final_test_evaluation.ipynb) |
+| 9. Presentations | [Data Engineering](reports/MIMIC_III_Data_Engineering_EN.pdf) and [Modeling](reports/ICU_Mortality_Modeling_EN.pdf) |
 
 ## Presentations
+
+English translations of the original Turkish presentations, with the source color palettes, page sequence, and recorded results preserved.
 
 - [MIMIC-III Data Engineering and Feature Engineering — English PDF](reports/MIMIC_III_Data_Engineering_EN.pdf)
 - [ICU Mortality Modeling and Final Evaluation — English PDF](reports/ICU_Mortality_Modeling_EN.pdf)
 
 ## Requirements / Setup
 
-The project was developed with **Python 3.12 on Ubuntu/WSL**. Direct notebook and script dependencies are listed in [requirements.txt](requirements.txt), pinned to the existing project environment. A clean installation has not been independently reproduced on every platform.
+The project was developed with **Python 3.12 on Ubuntu/WSL**. Direct notebook and script dependencies are listed in [requirements.txt](requirements.txt). Versions are not strictly pinned; the file is a practical dependency list rather than a reproducibility lockfile. A fresh installation and full model retraining have not been revalidated as part of this documentation update.
 
 ```bash
 git clone https://github.com/sengulozaydin/icu-risk-prediction.git

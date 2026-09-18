@@ -1,0 +1,3 @@
+# Treat presentation and figure assets as binary files.
+*.pdf binary
+*.png binary
