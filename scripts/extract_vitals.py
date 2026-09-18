@@ -9,12 +9,13 @@ import pyarrow as pa
 import pyarrow.csv as csv
 import pyarrow.parquet as pq
 
-ROOT = Path(__file__).resolve().parents[1]
-DATA = Path('/mnt/c/Users/vetts/Downloads/MimicIII/mimic-iii-clinical-database-1.4')
+from project_paths import PROJECT_ROOT, MIMIC_DATA_DIR, mimic_csv
+
+ROOT = PROJECT_ROOT
+DATA = MIMIC_DATA_DIR
 
 def source(name):
-    path = DATA / (name + '.csv')
-    return path if path.is_file() else path / (name + '.csv')
+    return mimic_csv(name, data_dir=DATA)
 
 def run(expected_cohort_size=45253):
     nb = json.loads((ROOT / 'notebooks/data_engineering/02_lab_vital_features.ipynb').read_text())

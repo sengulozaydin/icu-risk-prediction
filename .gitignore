@@ -52,3 +52,6 @@ tmp/
 *.sqlite3
 *.db
 *.keras
+
+# Machine-specific raw-data configuration
+/config.local.toml

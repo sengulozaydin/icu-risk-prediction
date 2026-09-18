@@ -165,6 +165,8 @@ icu-risk-prediction/
 │   ├── extract_vitals.py       # Streaming extraction and cache management
 │   ├── validate_vitals.py      # Independent bounded-batch validation
 │   ├── data_quality.py         # Shared source-cleaning rules
+│   ├── project_paths.py        # Central path configuration
+│   ├── test_project_paths.py   # Configuration and notebook startup checks
 │   └── test_extract_vitals.py  # Synthetic extraction regression test
 ├── reports/
 │   ├── MIMIC_III_Data_Engineering_EN.pdf
@@ -173,6 +175,7 @@ icu-risk-prediction/
 │   ├── data_quality_review.md
 │   └── data_quality_summary.json
 ├── data/processed/             # Local only; excluded from Git
+├── config.example.toml        # Copy to ignored config.local.toml for local data paths
 ├── requirements.txt
 └── .gitignore
 ```
@@ -213,13 +216,33 @@ python -m pip install -r requirements.txt
 python -m ipykernel install --user --name icu-risk-prediction --display-name "ICU Risk Prediction"
 ```
 
-Open the notebooks in a Jupyter-compatible editor and select this kernel. Run each notebook with its containing directory as the working directory so `../../data/processed` resolves correctly.
+Open the notebooks in a Jupyter-compatible editor and select this kernel. Run the first setup cell before the analysis cells. The kernel may start in the repository root or any subdirectory (including either notebook folder); the setup cell locates the repository automatically.
 
 1. Obtain authorized MIMIC-III access and keep the source tables locally.
-2. Update the original machine-specific raw-data paths in the engineering notebooks and `DATA` in `scripts/extract_vitals.py`. Some legacy engineering cells still use `../data/processed`; adapt these paths to the current two-level notebook layout (`../../data/processed`) when running locally. The extractor supports flat CSVs and nested `TABLE.csv/TABLE.csv` layouts.
+2. Configure the raw-data directory once in `config.local.toml`, as described below. All engineering notebooks and the extractor share this setting and support both flat `TABLE.csv` and nested `TABLE.csv/TABLE.csv` layouts.
 3. Create `data/processed/` and run the engineering notebooks in order. Some exploratory cells rely on earlier in-memory variables; follow the ordered workflow rather than treating each cell as an independent job.
 4. For vital extraction, save the `vital_itemids` dictionary in engineering notebook 02 before running the commands below from the repository root. The extractor reads that saved dictionary.
 5. Run modeling notebook 01 to create local training/test Parquet files, then follow the modeling sequence. Development and final evaluation are separate stages.
+
+### Configure paths once
+
+Copy the [configuration template](config.example.toml) to a local file at the repository root:
+
+```bash
+cp config.example.toml config.local.toml
+```
+
+Edit only `mimic_data_dir` in `config.local.toml`:
+
+```toml
+mimic_data_dir = "data/raw/mimic-iii-clinical-database-1.4"
+```
+
+Relative values resolve against the **repository root**, regardless of the notebook working directory. An absolute path to an existing external dataset is also supported; no data needs to be moved or copied. Use a path understood by the running Python environment: for example, `/mnt/d/datasets/mimic-iii` in WSL, or `D:/datasets/mimic-iii` in native Windows Python. A leading `~` expands to the current user's home directory.
+
+`config.local.toml` is ignored by Git. Without it, the default is `data/raw/mimic-iii-clinical-database-1.4`. Restart the notebook kernel after editing the configuration, then run the setup cell again.
+
+[scripts/project_paths.py](scripts/project_paths.py) derives the project root from its own location and supplies the raw-data path, `data/processed`, and `reports` directories. Processed files stay in the existing repository-local directory. Do not edit individual notebook paths or change the Python working directory to compensate for notebook nesting. Saved notebook outputs are historical and may still show paths from the original run; execution uses the shared configuration.
 
 ```bash
 mkdir -p data/processed
@@ -233,9 +256,10 @@ Run the existing synthetic extraction check without MIMIC data:
 
 ```bash
 python scripts/test_extract_vitals.py
+python scripts/test_project_paths.py
 ```
 
-The test covers admission-time inclusion, the exclusive 24-hour boundary, identifier matching, cohort eligibility, missing measurements, cache reuse, and malformed-input handling. Full model retraining is computationally expensive; neural-network results may vary because the saved training code does not fix all random seeds.
+The path tests check configuration resolution, flat/nested CSV layouts, notebook syntax, and setup from the repository root and notebook folders without reading clinical data. The extraction test covers admission-time inclusion, the exclusive 24-hour boundary, identifier matching, cohort eligibility, missing measurements, cache reuse, and malformed-input handling. Full model retraining is computationally expensive; neural-network results may vary because the saved training code does not fix all random seeds.
 
 ## Notes about the dataset
 

@@ -4,8 +4,9 @@ from pathlib import Path
 import pandas as pd
 import pyarrow.parquet as pq
 
-root=Path(__file__).resolve().parents[1]
-folder=root/'data/processed'
+from project_paths import PROCESSED_DIR
+
+folder=PROCESSED_DIR
 cohort=pd.read_parquet(folder/'adult_icu_cohort_first24h.parquet')
 report=json.loads((folder/'vitals_first24h.json').read_text())
 items={int(k) for k in report['signature']['items']}

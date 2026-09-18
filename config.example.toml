@@ -1,0 +1,4 @@
+# Copy to config.local.toml and edit this one setting.
+# Relative paths are anchored to the repository root; absolute paths are allowed.
+# Use a path valid for the Python runtime (e.g. /mnt/... when running in WSL).
+mimic_data_dir = "data/raw/mimic-iii-clinical-database-1.4"
