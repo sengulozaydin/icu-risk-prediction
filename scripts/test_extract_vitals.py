@@ -14,9 +14,9 @@ class ExtractionTest(unittest.TestCase):
             ex.ROOT = Path(directory)
             ex.DATA = ex.ROOT / 'raw'
             ex.DATA.mkdir()
-            (ex.ROOT / 'notebooks').mkdir()
+            (ex.ROOT / 'notebooks/data_engineering').mkdir(parents=True)
             (ex.ROOT / 'data/processed').mkdir(parents=True)
-            (ex.ROOT / 'notebooks/02_feature_engineering.ipynb').write_text(json.dumps({'cells': [{'cell_type':'code', 'source':['vital_itemids = {"Heart Rate": [211]}']}]}))
+            (ex.ROOT / 'notebooks/data_engineering/02_lab_vital_features.ipynb').write_text(json.dumps({'cells': [{'cell_type':'code', 'source':['vital_itemids = {"Heart Rate": [211]}']}]}))
             pd.DataFrame({'SUBJECT_ID':[1,2,3], 'DOB':['2050-01-01','2095-01-01','2050-01-01']}).to_csv(ex.DATA/'PATIENTS.csv', index=False)
             pd.DataFrame({'SUBJECT_ID':[1,1,2,3], 'HADM_ID':[10,11,20,30], 'ICUSTAY_ID':[100,101,200,300], 'INTIME':['2100-01-01']*4, 'OUTTIME':['2100-01-03']*4, 'LOS':[2,2,2,0.5]}).to_csv(ex.DATA/'ICUSTAYS.csv', index=False)
             header=['ROW_ID','SUBJECT_ID','HADM_ID','ICUSTAY_ID','ITEMID','CHARTTIME','STORETIME','VALUENUM','VALUEUOM','ERROR']

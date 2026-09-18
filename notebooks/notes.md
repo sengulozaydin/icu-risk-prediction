@@ -1,3 +1,6 @@
+# Data Engineering Working Notes
+
+Historical notes from the exploratory stages. Intermediate feature choices and counts may differ from the final pipeline; see the [project README](../README.md) and numbered notebooks for the final configuration.
 
 # 01 — Data Overview
 
