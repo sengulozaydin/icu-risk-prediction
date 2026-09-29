@@ -15,7 +15,7 @@ An end-to-end clinical machine learning project: from large-scale ICU event proc
 
 ## Live Demo
 
-Live demo: Streamlit Community Cloud (URL will be added after deployment).
+**Live demo:** [ICU Mortality Prediction Streamlit App](https://sengulozaydin-icu-risk-prediction-app-n0ds7t.streamlit.app)
 
 With **Python 3.12**, install `python -m pip install -r requirements.txt`, then run:
 
