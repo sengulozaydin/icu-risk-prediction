@@ -1,0 +1,7 @@
+# Optional dependencies for the existing notebooks, extraction and artifact export.
+-r requirements.txt
+imbalanced-learn
+xgboost
+matplotlib
+pyarrow
+ipykernel

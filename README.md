@@ -13,6 +13,22 @@ An end-to-end clinical machine learning project: from large-scale ICU event proc
 
 [Start with data engineering](notebooks/data_engineering/01_data_overview.ipynb) · [Model comparison](notebooks/modeling/08_model_comparison.ipynb) · [Final test evaluation](notebooks/modeling/09_final_test_evaluation.ipynb) · [Presentations](#presentations)
 
+## Live Demo
+
+Live demo: Streamlit Community Cloud (URL will be added after deployment).
+
+With **Python 3.12**, install `python -m pip install -r requirements.txt`, then run:
+
+```bash
+streamlit run app.py
+```
+
+On [Streamlit Community Cloud](https://share.streamlit.io/), select repository `sengulozaydin/icu-risk-prediction`, branch `main`, entrypoint **`app.py`**, and **Python 3.12** under Advanced settings. Python is selected in the deployment UI; no `runtime.txt` is required. All inference artifacts are committed under [`models/`](models/README.md); no MIMIC data, secrets or export step is required for deployment. [Streamlit deployment instructions](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy).
+
+The demo uses the original final configuration (64 → 32 → 1, 8 epochs, balanced class weights, threshold 0.6). Since original weights were not saved, the bundled model is a demo refit. Displayed test metrics are the unchanged original notebook results, **not a new evaluation of the bundled weights**. See [artifact provenance](models/README.md). Run inference and UI checks with `python -m unittest discover -s tests`.
+
+This application is a portfolio and research demonstration only. It is not a medical device and must not be used for diagnosis, treatment, triage, or clinical decision-making.
+
 ## Project Overview
 
 This project predicts **in-hospital mortality** from information recorded during the first 24 hours of an adult ICU stay. It covers data engineering, clinical feature engineering, quality auditing, preprocessing, classical machine learning, XGBoost, and a feed-forward neural network.
@@ -205,14 +221,14 @@ Presentations covering the project’s data engineering and modeling workflows, 
 
 ## Requirements / Setup
 
-Use **Python 3.12**; the commands below target Ubuntu/WSL. Install the dependencies from [requirements.txt](requirements.txt):
+Use **Python 3.12**; the commands below target Ubuntu/WSL. For the full notebook workflow, install [requirements-notebooks.txt](requirements-notebooks.txt):
 
 ```bash
 git clone https://github.com/sengulozaydin/icu-risk-prediction.git
 cd icu-risk-prediction
 python3.12 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-notebooks.txt
 python -m ipykernel install --user --name icu-risk-prediction --display-name "ICU Risk Prediction"
 ```
 

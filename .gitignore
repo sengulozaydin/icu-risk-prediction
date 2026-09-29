@@ -55,3 +55,16 @@ tmp/
 
 # Machine-specific raw-data configuration
 /config.local.toml
+
+# Streamlit secrets and local tooling
+.streamlit/secrets.toml
+*.pem
+*.key
+
+# Publish only the reviewed inference bundle, not arbitrary trained models.
+models/*
+!models/final_model.keras
+!models/preprocessor.joblib
+!models/feature_schema.json
+!models/manifest.json
+!models/README.md

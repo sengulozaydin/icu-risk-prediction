@@ -1,0 +1,33 @@
+{
+  "source_notebook": "notebooks/modeling/09_final_test_evaluation.ipynb",
+  "provenance": "Demo refit with original final settings; original notebook weights were not saved. Recorded notebook metrics are not measurements of this refit.",
+  "architecture": [
+    64,
+    32,
+    1
+  ],
+  "epochs": 8,
+  "batch_size": 64,
+  "class_weight": "balanced",
+  "export_seed": 42,
+  "threshold": 0.6,
+  "recorded_notebook_test_metrics": {
+    "ROC-AUC": 0.852,
+    "Recall": 0.682,
+    "Precision": 0.347,
+    "F1": 0.46
+  },
+  "versions": {
+    "tensorflow": "2.21.0",
+    "keras": "3.15.1",
+    "scikit-learn": "1.9.1",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "joblib": "1.6.0"
+  },
+  "sha256": {
+    "final_model.keras": "2d18483fe57a29dc4cb47ef19cdd692f2a0cb361b5a811b1e1aeeaea83458a26",
+    "preprocessor.joblib": "c9fb00623d7cbb8f590ccee290f6a90cc334c82d0b4e5a051da9eb2e615d86e6",
+    "feature_schema.json": "ddf3618194421a4429a85db86000b47c52daf002da54e5de166f115e8af63e27"
+  }
+}
